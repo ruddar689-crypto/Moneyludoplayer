@@ -37,12 +37,63 @@ footer{text-align:center;padding:25px;color:#aaa}
 <p>Game information and schedules</p>
 <button>View Games</button>
 </section>
+
 <section class="card" id="wallet">
-<h2>💰my wallet</h2>
-<p>balance:0.00</p>
-<button type="button">Add Cash</button>
-<button type="button">Withdrawal</button>
+  <h2>💰 My Wallet</h2>
+  <h3>Balance: ₹<span id="balance">0.00</span></h3>
+  <input type="number" id="amount" placeholder="Enter amount">
+  <button onclick="addCash()">Add Cash</button>
+  <button onclick="withdrawCash()">Withdrawal</button>
+  <h3>Transaction History</h3>
+  <ul id="history"></ul>
 </section>
+  
 <footer> </footer>
+<script>
+let balance = 0;
+
+function updateBalance() {
+  document.getElementById("balance").textContent =
+    balance.toFixed(2);
+}
+
+function addHistory(type, amount) {
+  let item = document.createElement("li");
+  item.textContent = type + " - ₹" + amount.toFixed(2);
+  document.getElementById("history").prepend(item);
+}
+
+function addCash() {
+  let amount = Number(document.getElementById("amount").value);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert("Enter valid amount");
+    return;
+  }
+
+  balance += amount;
+  updateBalance();
+  addHistory("Demo Cash Added", amount);
+}
+
+function withdrawCash() {
+  let amount = Number(document.getElementById("amount").value);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    alert("Enter valid amount");
+    return;
+  }
+
+  if (amount > balance) {
+    alert("Insufficient demo balance");
+    return;
+  }
+
+  balance -= amount;
+  updateBalance();
+  addHistory("Demo Withdrawal", amount);
+}
+</script>
+  
 </body> 
 </html>
